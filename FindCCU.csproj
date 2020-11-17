@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>find.ccu</PackageId>
+    <Authors>Eduard Schäfer</Authors>
+    <Company>Eddys IT</Company>
+    <Product>Find CCU</Product>
+    <Description>This tool search your network for CCUs via multicast. Exactly the same thing what the eQ-3 java search tool does.</Description>
+    <NeutralLanguage />
+  </PropertyGroup>
+
+</Project>
