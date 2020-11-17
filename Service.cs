@@ -19,7 +19,7 @@ namespace FindCCU
         const int TTL = 5;
         readonly int _timeout;
 
-        public Service(int timeout = 3000, int retryCount = 3)
+        public Service(int timeout = 2000, int retryCount = 2)
         {
             _timeout = timeout;
             _retryCount = retryCount;
@@ -31,6 +31,7 @@ namespace FindCCU
             {
                 var responses = new List<CCU>();
                 var nics = NetworkInterface.GetAllNetworkInterfaces();
+                var wereThereMulticastAdapters = false;
                 foreach (var adapter in nics)
                 {
                     if (!adapter.GetIPProperties().MulticastAddresses.Any())
@@ -45,14 +46,22 @@ namespace FindCCU
 
                     try
                     {
-                        var responsesForNic = await Search(localIp, p.Index);
-                        responses.AddRange(responsesForNic);
+                        wereThereMulticastAdapters = true;
+                        var ccus = await Search(localIp, p.Index);
+                        foreach (var ccu in ccus)
+                        {
+                            if (!responses.Any(x => x.Host == ccu.Host))
+                                responses.Add(ccu);
+                        }
                     }
                     catch (SocketException)
                     {
                         continue;
                     }
                 }
+                if (!wereThereMulticastAdapters)
+                    throw new Exception($"Code: 9919, no multi cast adapters were found");
+
                 return responses;
             });
         }
