@@ -34,8 +34,8 @@ namespace FindCCU
                 var wereThereMulticastAdapters = false;
                 foreach (var adapter in nics)
                 {
-                    if (!adapter.GetIPProperties().MulticastAddresses.Any())
-                        continue; // most of VPN adapters will be skipped
+                    //if (!adapter.GetIPProperties().MulticastAddresses.Any())
+                    //    continue; // most of VPN adapters will be skipped
                     if (!adapter.SupportsMulticast)
                         continue; // multicast is meaningless for this type of connection
                     if (OperationalStatus.Up != adapter.OperationalStatus)
